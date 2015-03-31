@@ -19,18 +19,19 @@ class linkedList
         struct node
 	{
 	    T item;
-	    node* next;
+	    node* next, prev;
     };
 	int itemCount;
-	node* head;
+	node* listPtr;
 
     public:
         linkedList();
-	int getItemCount() const;
+    	int getItemCount() const;
         void insert(T valIn);
         T getItemAtIndex(int index) const;
-
+        T getItemAtHead() const;
 };
+
 template <class T>
 int linkedList<T>::getItemCount() const
 {
@@ -41,9 +42,11 @@ template <class T>
 linkedList<T>::linkedList()
 {
     itemCount = 0;
-    node* sentinel = new node;
-    sentinel->next = NULL;
-    head = sentinel;	
+    node* head = new node;
+    node* tail = new node;
+    head->next = tail;
+    tail->next = NULL;
+    listPtr = head;	
 }
 
 template <class T>
@@ -71,6 +74,12 @@ T linkedList<T>::getItemAtIndex(int index) const
         curPtr = curPtr->next;      
     }
     return curPtr->item;
+}
+
+template <class T>
+T linkedList<T>::getItemAtHead() const
+{
+    return head->next->item;
 }
 
 #endif

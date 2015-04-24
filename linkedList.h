@@ -19,10 +19,12 @@ class linkedList
         struct node
 	{
 	    T item;
-	    node* next, prev;
+	    node* next;
+        node* prev;
     };
 	int itemCount;
-	node* listPtr;
+	node* head;
+    node* tail;
 
     public:
         linkedList();
@@ -42,21 +44,30 @@ template <class T>
 linkedList<T>::linkedList()
 {
     itemCount = 0;
-    node* head = new node;
-    node* tail = new node;
+    head = new node;
+    tail = new node;
     head->next = tail;
+    head->prev = NULL;
+    tail->prev = head;
     tail->next = NULL;
-    listPtr = head;	
+    	
 }
 
 template <class T>
 void linkedList<T>::insert(T valIn)
 {
+    //creates new item and inserts into node
     node* newNode = new node;
     newNode->item = valIn;
-    node* temp = head->next;
-    head->next = newNode;
-    newNode->next = temp;
+
+    //linked node to list
+    node* temp = tail->prev;
+    tail->prev = newNode;
+    temp->next = newNode;
+    newNode->next = tail;
+    newNode->prev = temp;
+
+
     ++itemCount;
 }
 
